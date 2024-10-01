@@ -135,10 +135,3 @@ class Knight(Figure):
 # 'it promotes to the player')s choice of a queen, rook, bishop, or knight of the same color.[6]
 class Pawn(Figure):
     pass
-
-
-
-king = King('c2')
-king.field = 'h2'
-print(king.list_available_moves)
-

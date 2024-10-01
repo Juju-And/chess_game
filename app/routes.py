@@ -1,32 +1,38 @@
 from flask import Flask, request, jsonify
+from chess import King, Queen, Bishop
+
+king = King('a8')
+queen = Queen('a8')
+bishop = Bishop('a8')
+
+CHESS = {
+    "king": king,
+    "queen": queen,
+    "bishop": bishop
+}
+
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'GET':
-        data = {
-            "Modules": 15,
-            "Subject": "Data Structures and Algorithms",
-        }
-        return jsonify(data)
-
 @app.route('/api/v1/<chess_figure>/<current_field>', methods=['GET'])
 def display_possible_moves(chess_figure,current_field):
-    figure = None
+    figure = CHESS.get(chess_figure)
+    figure.field = current_field
+
 
     data = {
-       "availableMoves":[
-          "H3"
-       ],
+       "availableMoves": figure.list_available_moves,
        "error": None,
        "figure": chess_figure,
        "currentField": current_field
     }
+
+
+
     return jsonify(data)
 
 @app.route('/api/v1/<chess_figure>/<current_field>/<dest_field>', methods=['GET'])
-def display_possible_moves(chess_figure,current_field,dest_field):
+def validate_possible_moves(chess_figure,current_field,dest_field):
     figure = None
 
     data = {
