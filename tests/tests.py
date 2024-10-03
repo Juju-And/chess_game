@@ -1,5 +1,5 @@
-from app import app
-from app.chess import King
+from src.app import app
+from src.chess import King
 import pytest
 
 
