@@ -139,32 +139,15 @@ class Pawn(Figure):
     available_moves = [(-1, 0), (1, 0)]
 
 
-# pionek może zawsze iść jedno do przodu jedno do tyłu, nie może na boku i nie może na skos
-
-
 CHESS_PIECES = {
     "king": King,
     "queen": Queen,
     "bishop": Bishop,
     "knight": Knight,
     "rook": Rook,
-    "pawn":Pawn
+    "pawn": Pawn,
 }
 
 
 def validate_figure(figure):
     return CHESS_PIECES.get(figure)
-
-
-#
-# king = King("f5")
-# print(king.list_available_moves)
-# print(king.validate_move('a1', 'a7'))
-
-# print(validate_figure("kig"))
-
-# print(verify_position_on_chessboard(decode_field("h15")))
-#
-# print(king.list_available_moves)
-# print(CHESS.get("king").list_available_moves)
-# print(king.validate_move('e5'))
