@@ -26,7 +26,7 @@ $ python app.py
 
 ### API endpoints
 
-### URL passes id to methods
+### URL passes arguments to methods
 
 #### GET /api/v1/<chess_figure>/<current_field>
 Returns possible moves for the provided figure in json format.
