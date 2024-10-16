@@ -28,7 +28,7 @@ def display_possible_moves(chess_figure: str, current_field: str) -> Tuple[Respo
 
     figure = CHESS_PIECES.get(chess_figure)(current_field)
     data = {
-        "availableMoves": figure.list_available_moves,
+        "availableMoves": figure.list_available_moves(),
         "error": None,
         "figure": chess_figure,
         "currentField": current_field,
@@ -40,7 +40,7 @@ def display_possible_moves(chess_figure: str, current_field: str) -> Tuple[Respo
 def validate_possible_moves(chess_figure: str, current_field: str, dest_field: str) -> Tuple[Response, int]:
     if validate_figure(chess_figure) is None:
         data = {
-            "availableMoves": [],
+            "availableMoves": "[]",
             "error": "Invalid figure.",
             "figure": chess_figure,
             "currentField": current_field,
