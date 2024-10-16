@@ -1,5 +1,7 @@
-letter_fields = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
-number_fields = {
+from typing import Optional, Tuple, List
+
+LETTER_FIELDS = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
+NUMBER_FIELDS = {
     1: 7,
     2: 6,
     3: 5,
@@ -11,10 +13,10 @@ number_fields = {
 }  # "field": array_position
 
 
-def decode_field(field):
+def decode_field(field: str) -> Optional[tuple]:
     list_f = [field[0:1], field[1 : len(field)]]
-    pos_x = letter_fields.get(list_f[0])
-    pos_y = number_fields.get(int(list_f[1]))
+    pos_x = LETTER_FIELDS.get(list_f[0])
+    pos_y = NUMBER_FIELDS.get(int(list_f[1]))
 
     if not None in (pos_x, pos_y):
         return tuple([pos_x, pos_y])
@@ -22,31 +24,46 @@ def decode_field(field):
         return None
 
 
-def code_field(tuple_field):
+def code_field(tuple_field: tuple) -> Optional[str]:
+    """
+    Converts a tuple chessboard position into the corresponding chessboard notation (e.g., (0, 0) -> 'A1').
+
+    Args:
+        tuple_field (tuple): Tuple representing the chessboard position, e.g., (0, 1).
+
+    Returns:
+        Optional[str]: Chessboard field in string notation, or None if the position is invalid.
+    """
     if verify_position_on_chessboard(tuple_field) is not None:
-        key_list_letters = list(letter_fields.keys())
-        val_list_letters = list(letter_fields.values())
-        key_list_numbers = list(number_fields.keys())
-        val_list_numbers = list(number_fields.values())
+        key_list_letters = list(LETTER_FIELDS.keys())
+        val_list_letters = list(LETTER_FIELDS.values())
+        key_list_numbers = list(NUMBER_FIELDS.keys())
+        val_list_numbers = list(NUMBER_FIELDS.values())
 
         field_letter = str(key_list_letters[val_list_letters.index(tuple_field[0])])
         field_number = str(key_list_numbers[val_list_numbers.index(tuple_field[1])])
 
-        return str(field_letter + field_number)
+        return field_letter + field_number
 
 
-def verify_position_on_chessboard(field):
-    # print(field[0])
-    if not (
-        int(field[0]) <= 7
-        and int(field[1]) <= 7
-        and int(field[0]) >= 0
-        and int(field[1]) >= 0
-    ):
+def verify_position_on_chessboard(field: tuple) -> Optional[tuple]:
+    """
+    Validates if the given chessboard field is within the valid range (0 to 7).
+
+    Args:
+        field (tuple): Decoded chessboard position, e.g., (0, 1).
+
+    Returns:
+        Optional[tuple]: Tuple with field if the position is valid, None otherwise.
+    """
+    if len(field) != 2:
         return None
-    else:
-        return field
 
+    x, y = field
+    # Check if both coordinates are within the valid chessboard range (0 to 7)
+    if 0 <= x <= 7 and 0 <= y <= 7:
+        return field
+    return None
 
 class Figure:
     available_moves = []
@@ -54,8 +71,7 @@ class Figure:
     def __init__(self, field):
         self.field = field
 
-    @property
-    def list_available_moves(self):
+    def list_available_moves(self) -> List:
         lst = []
         coded_lst = []
         current_field = decode_field(self.field)
@@ -75,12 +91,18 @@ class Figure:
 
         return coded_lst
 
-    def validate_move(self, dest_field):
-        moves = self.list_available_moves
-        if dest_field in moves:
-            return "valid"
-        else:
-            return "not valid"
+    def validate_move(self, dest_field: str) -> bool:
+        """
+        Validate if the destination field is a valid move.
+
+        Args:
+            dest_field (str): The target field to validate.
+
+        Returns:
+            bool: True if the move is valid, False otherwise.
+        """
+        moves = self.list_available_moves()
+        return dest_field in moves
 
 
 class King(Figure):
@@ -96,7 +118,7 @@ class King(Figure):
     ]
 
 
-class Queen(Figure):  # królowa, hetman
+class Queen(Figure):
     available_moves = [
         (-1, 0),  # up
         (1, 0),  # down
@@ -149,5 +171,5 @@ CHESS_PIECES = {
 }
 
 
-def validate_figure(figure):
+def validate_figure(figure: str) -> Optional[str]:
     return CHESS_PIECES.get(figure)
