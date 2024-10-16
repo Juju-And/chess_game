@@ -10,7 +10,7 @@ app = Flask(__name__)
 def display_possible_moves(chess_figure: str, current_field: str) -> Tuple[Response, int]:
     if validate_figure(chess_figure) is None:
         data = {
-            "availableMoves": "[]",
+            "availableMoves": [],
             "error": "Invalid figure.",
             "figure": chess_figure,
             "currentField": current_field,
@@ -19,7 +19,7 @@ def display_possible_moves(chess_figure: str, current_field: str) -> Tuple[Respo
 
     if decode_field(current_field) is None:
         data = {
-            "availableMoves": "[]",
+            "availableMoves": [],
             "error": "Field does not exist.",
             "figure": chess_figure,
             "currentField": current_field,
@@ -40,7 +40,7 @@ def display_possible_moves(chess_figure: str, current_field: str) -> Tuple[Respo
 def validate_possible_moves(chess_figure: str, current_field: str, dest_field: str) -> Tuple[Response, int]:
     if validate_figure(chess_figure) is None:
         data = {
-            "availableMoves": "[]",
+            "availableMoves": [],
             "error": "Invalid figure.",
             "figure": chess_figure,
             "currentField": current_field,
@@ -49,7 +49,7 @@ def validate_possible_moves(chess_figure: str, current_field: str, dest_field: s
 
     if decode_field(current_field) is None:
         data = {
-            "availableMoves": "[]",
+            "availableMoves": [],
             "error": "Field does not exist.",
             "figure": chess_figure,
             "currentField": current_field,
