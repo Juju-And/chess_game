@@ -5,20 +5,20 @@ import pytest
 
 def test_king_available_moves():
     king = King("f5")
-    assert sorted(king.list_available_moves) == sorted(
+    assert sorted(king.list_available_moves()) == sorted(
         ["e5", "g5", "f6", "f4", "e6", "e4", "g6", "g4"]
     )
 
 
 def test_king_valid_moves():
     king = King("f5")
-    assert king.validate_move("e5") == "valid"
-    assert king.validate_move("e8") == "not valid"
+    assert king.validate_move("e5") == True
+    assert king.validate_move("e8") == False
 
 
 def test_queen_available_moves():
     queen = Queen("d4")
-    assert sorted(queen.list_available_moves) == sorted(
+    assert sorted(queen.list_available_moves()) == sorted(
         ["c4", "e4", "d5", "d3", "c5", "c3", "e5", "e3"]
     )
 
