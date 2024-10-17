@@ -1,4 +1,5 @@
-from typing import Optional, Tuple, List
+from typing import Optional, List
+from abc import ABC
 
 LETTER_FIELDS = {"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7}
 NUMBER_FIELDS = {
@@ -65,7 +66,7 @@ def verify_position_on_chessboard(field: tuple) -> Optional[tuple]:
         return field
     return None
 
-class Figure:
+class Figure(ABC):
     available_moves = []
 
     def __init__(self, field):
@@ -169,7 +170,6 @@ CHESS_PIECES = {
     "rook": Rook,
     "pawn": Pawn,
 }
-
 
 def validate_figure(figure: str) -> Optional[str]:
     return CHESS_PIECES.get(figure)
