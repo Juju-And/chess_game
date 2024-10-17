@@ -15,14 +15,24 @@ NUMBER_FIELDS = {
 
 
 def decode_field(field: str) -> Optional[tuple]:
-    list_f = [field[0:1], field[1 : len(field)]]
-    pos_x = LETTER_FIELDS.get(list_f[0])
-    pos_y = NUMBER_FIELDS.get(int(list_f[1]))
-
-    if not None in (pos_x, pos_y):
-        return tuple([pos_x, pos_y])
-    else:
+    if len(field) < 2:  # Ensure the field has at least 2 characters
         return None
+
+    # Extract letter and number
+    letter_part = field[0]
+    number_part = field[1:]
+
+    try:
+        pos_x = LETTER_FIELDS.get(letter_part)
+        pos_y = NUMBER_FIELDS.get(int(number_part))
+    except ValueError:  # Catch invalid conversion to int
+        return None
+
+    # Only return if both positions are valid (not None)
+    if pos_x is not None and pos_y is not None:
+        return (pos_x, pos_y)
+
+    return None
 
 
 def code_field(tuple_field: tuple) -> Optional[str]:
@@ -65,6 +75,7 @@ def verify_position_on_chessboard(field: tuple) -> Optional[tuple]:
     if 0 <= x <= 7 and 0 <= y <= 7:
         return field
     return None
+
 
 class Figure(ABC):
     available_moves = []
@@ -170,6 +181,7 @@ CHESS_PIECES = {
     "rook": Rook,
     "pawn": Pawn,
 }
+
 
 def validate_figure(figure: str) -> Optional[str]:
     return CHESS_PIECES.get(figure)
